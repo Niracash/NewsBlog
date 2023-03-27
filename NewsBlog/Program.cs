@@ -1,5 +1,8 @@
 using NewsBlog.Data;
 using Microsoft.EntityFrameworkCore;
+using NewsBlog.Models;
+using Microsoft.AspNetCore.Identity;
+using NewsBlog.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,14 @@ var connectionString = builder.Configuration.GetConnectionString("DatabaseConnec
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseSqlServer(connectionString));
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<IDataInitializer, DataInitializer>();
+
 var app = builder.Build();
+DataSeeding();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,3 +44,12 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void DataSeeding()
+{
+    using(var scope = app.Services.CreateScope())
+    {
+        var DataInitialize = scope.ServiceProvider.GetRequiredService<IDataInitializer>();
+        DataInitialize.Initialize();
+    }
+}
