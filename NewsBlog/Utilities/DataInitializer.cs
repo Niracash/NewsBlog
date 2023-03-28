@@ -52,18 +52,17 @@ namespace NewsBlog.Utilities
                 //    Title = "Contact Us",
                 //    Slug = "contact"
                 //};
-                //var privacyPolicyPage = new Page()
-                //{
-                //    Title = "Privacy Policy",
-                //    Slug = "privacy-policy"
-                //};
 
                 //_context.Pages.Add(aboutPage);
                 //_context.Pages.Add(contactPage);
-                //_context.Pages.Add(privacyPolicyPage);
                 //_context.SaveChanges();
 
                 var listPages = new List<Page>() {
+                    new Page()
+                    {
+                        Title = "Weather",
+                        Slug = "weather"
+                    },
                     new Page()
                     {
                         Title = "About Us",
@@ -74,11 +73,6 @@ namespace NewsBlog.Utilities
                         Title = "Contact Us",
                         Slug = "contact"
                     },
-                    new Page()
-                    {
-                        Title = "Privacy Policy",
-                        Slug = "privacy-policy"
-                    }
                 };
                 _context.Pages.AddRangeAsync(listPages);
                 _context.SaveChanges();
