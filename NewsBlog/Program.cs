@@ -39,9 +39,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// If there is area it will go on area if not go on default
 app.MapControllerRoute(
     name: "area",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
