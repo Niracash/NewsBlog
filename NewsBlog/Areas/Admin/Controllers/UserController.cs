@@ -9,5 +9,10 @@ namespace NewsBlog.Areas.Admin.Controllers
         {
             return View();
         }
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
     }
 }
