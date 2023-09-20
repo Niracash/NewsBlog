@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using NewsBlog.Models;
 using Microsoft.AspNetCore.Identity;
 using NewsBlog.Utilities;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IDataInitializer, DataInitializer>();
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
 var app = builder.Build();
 DataSeeding();
@@ -32,11 +35,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseNotyf();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // If there is area it will go on area if not go on default
