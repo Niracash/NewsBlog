@@ -27,7 +27,11 @@ namespace NewsBlog.Areas.Admin.Controllers
         [HttpGet("Login")]
         public IActionResult Login()
         {
-            return View(new LoginViewModel());
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return View(new LoginViewModel());
+            }
+            return RedirectToAction("Index", "User", new { area = "Admin" });
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
@@ -51,6 +55,13 @@ namespace NewsBlog.Areas.Admin.Controllers
             await _signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, loginViewModel.RememberMe, true);
             _notification.Success("Logged in!");
             return RedirectToAction("Index", "User", new {area="Admin"});
+        }
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync();
+            _notification.Success("Logged out");
+            return RedirectToAction("Index", "Home", new {area = ""});
         }
     }
 }
