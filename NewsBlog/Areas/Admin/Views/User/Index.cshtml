@@ -1,8 +1,45 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@model List<NewsBlog.ViewModels.UserViewModel>
+@{
+    ViewData["Title"] = "Users";
 }
 <div class="container-fluid">
     <h2>User Index Page</h2>
 
 
+</div>
+
+<div class="container-fluid">
+    <a class="btn btn-primary">Create user</a>
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h4 class="card-title text-white">User List</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-stro[ed table-hover" id="#myTable">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Settings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>
+                                <a class="btn btn-secondary">Forgot Password</a>
+                                <a class ="btn btn-danger">Delete User</a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
