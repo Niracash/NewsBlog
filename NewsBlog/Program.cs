@@ -33,7 +33,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
-
+//test
 var app = builder.Build();
 DataSeeding();
 
