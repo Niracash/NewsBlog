@@ -21,7 +21,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             _signInManager = signInManager;
             _notification = notification;            
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -37,7 +37,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="admin")]
         [HttpGet]
         public IActionResult Register()
         {
@@ -45,7 +45,7 @@ namespace NewsBlog.Areas.Admin.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
@@ -124,6 +124,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             return RedirectToAction("Index", "User", new {area="Admin"});
         }
         [HttpPost]
+        [Authorize]
         public IActionResult Logout()
         {
             _signInManager.SignOutAsync();
