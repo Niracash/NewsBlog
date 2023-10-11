@@ -12,7 +12,7 @@ using NewsBlog.Data;
 namespace NewsBlog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230920070414_init")]
+    [Migration("20231011064659_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

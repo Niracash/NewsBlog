@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsBlog.Models;
+using NewsBlog.Utilities;
 using NewsBlog.ViewModels;
 
 namespace NewsBlog.Areas.Admin.Controllers
@@ -34,6 +35,60 @@ namespace NewsBlog.Areas.Admin.Controllers
                 UserName = x.UserName
             }).ToList();
             return View(viewModel);
+        }
+
+        [Authorize(Roles ="Admin")]
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View(new RegisterViewModel());
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(registerViewModel); 
+            }
+            var checkUserEmail = await _userManager.FindByEmailAsync(registerViewModel.Email);
+            if(checkUserEmail!= null)
+            {
+                _notification.Error("Email already exists");
+                return View(registerViewModel);
+            }
+            var checkUsername = await _userManager.FindByNameAsync(registerViewModel.UserName);
+            if(checkUsername != null)
+            {
+                _notification.Error("Username is taken");
+                return View(registerViewModel);
+            }
+
+            var newUser = new User()
+            {
+                Email = registerViewModel.Email,
+                UserName = registerViewModel.UserName,
+                FirstName = registerViewModel.FirstName,
+                LastName = registerViewModel.LastName
+            };
+
+            var result = await _userManager.CreateAsync(newUser, registerViewModel.Password);
+            if (result.Succeeded)
+            {
+                if (registerViewModel.IsAdmin)
+                {
+                    await _userManager.AddToRoleAsync(newUser, Roles.Admin);
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(newUser, Roles.Author);
+                }
+                _notification.Success("User is created!");
+                return RedirectToAction("Index", "User", new {area = "Admin"});
+            }
+            return View(registerViewModel);
         }
 
         [HttpGet("Login")]
