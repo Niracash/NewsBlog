@@ -21,7 +21,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             _signInManager = signInManager;
             _notification = notification;            
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -30,14 +30,23 @@ namespace NewsBlog.Areas.Admin.Controllers
             var viewModel = users.Select(x => new UserViewModel()
             {
                 Id = x.Id,
+                UserName = x.UserName,
+                Email = x.Email,
                 FirstName = x.FirstName,
-                LastName = x.LastName,
-                UserName = x.UserName
+                LastName = x.LastName
             }).ToList();
+            // Fetching role
+            foreach(var user in viewModel)
+            {
+                var getUser =  await _userManager.FindByIdAsync(user.Id);
+                var role = await _userManager.GetRolesAsync(getUser);
+                user.Role = role.FirstOrDefault();
+            }
+
             return View(viewModel);
         }
 
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         public IActionResult Register()
         {
@@ -45,7 +54,7 @@ namespace NewsBlog.Areas.Admin.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
@@ -89,6 +98,51 @@ namespace NewsBlog.Areas.Admin.Controllers
                 return RedirectToAction("Index", "User", new {area = "Admin"});
             }
             return View(registerViewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> PasswordReset(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if(user == null)
+            {
+                _notification.Error("User not found");
+                return View();
+            }
+            var viewModel = new PasswordResetViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+            };
+            return View(viewModel);
+
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> PasswordReset(PasswordResetViewModel passwordResetViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(passwordResetViewModel);
+            }
+            var user = await _userManager.FindByIdAsync(passwordResetViewModel.Id);
+            if (user == null)
+            {
+                _notification.Error("User not found");
+                return View(passwordResetViewModel);
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, passwordResetViewModel.NewPassword);
+            if (result.Succeeded)
+            {
+                _notification.Success("Password successfully reseted");
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View(passwordResetViewModel);
         }
 
         [HttpGet("Login")]
