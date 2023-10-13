@@ -152,7 +152,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             {
                 return View(new LoginViewModel());
             }
-            return RedirectToAction("Index", "User", new { area = "Admin" });
+            return RedirectToAction("Index", "Post", new { area = "Admin" });
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
@@ -175,7 +175,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             }
             await _signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, loginViewModel.RememberMe, true);
             _notification.Success("Logged in!");
-            return RedirectToAction("Index", "User", new {area="Admin"});
+            return RedirectToAction("Index", "Post", new {area="Admin"});
         }
         [HttpPost]
         [Authorize]
@@ -184,6 +184,13 @@ namespace NewsBlog.Areas.Admin.Controllers
             _signInManager.SignOutAsync();
             _notification.Success("Logged out");
             return RedirectToAction("Index", "Home", new {area = ""});
+        }
+
+        [HttpGet("NoAccess")]
+        [Authorize]
+        public IActionResult NoAccess()
+        {
+            return View();
         }
     }
 }
