@@ -182,7 +182,6 @@ namespace NewsBlog.Areas.Admin.Controllers
         public IActionResult Logout()
         {
             _signInManager.SignOutAsync();
-            _notification.Success("Logged out");
             return RedirectToAction("Index", "Home", new {area = ""});
         }
 
