@@ -15,7 +15,7 @@
                         <!-- Image upload section -->
                         <div class="text-center mb-3">
                             <!-- Centered content -->
-                            <img src="~/images/uploadImage.jpg" class="img-fluid mb-2" />
+                            <img src="~/images/uploadImage.jpg" class="img-fluid mb-2" id="blogimage" />
                             <label>Upload Image</label>
                             <input type="file" asp-for="UploadImage" class="custom-file" />
                             <span asp-validation-for="Description" class="text-danger"></span>
@@ -53,3 +53,12 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        $(".custom-file").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            document.getElementById('blogimage').src = window.URL.createObjectURL(this.files[0])
+        });
+    </script>
+}
