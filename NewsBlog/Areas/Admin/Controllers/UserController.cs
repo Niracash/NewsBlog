@@ -161,7 +161,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             {
                 return View(loginViewModel);
             }
-            var findUser = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginViewModel.Username);
+            var findUser = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginViewModel.Username!.ToLower());
             if (findUser == null)
             {
                 _notification.Error("Username not found");

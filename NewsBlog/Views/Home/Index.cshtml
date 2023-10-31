@@ -1,25 +1,26 @@
-﻿@{
-    ViewData["Title"] = "News";
-}
-<!-- Page Header-->
-<header class="masthead" style="background-image: url('/MainPage/assets/img/home-bg.jpg')">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="site-heading">
+﻿<!-- Page Header-->
+<div class="container-fluid">
+    <!-- Change to container-fluid -->
+    <header class="my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Removed the inline style for width and max-width -->
+                <div class="image-container">
+                    <img src="/MainPage/assets/img/home-bg.jpg" alt="Description" style="width: 100%; height: 300px; display: block; object-fit: cover;">
+                </div>
+                <div class="text-center mt-5">
                     <h1>Clean Blog</h1>
                     <span class="subheading">A Blog Theme by Start Bootstrap</span>
                 </div>
             </div>
         </div>
-    </div>
-</header>
-
-<div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
+    </header>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
             <!-- Post preview-->
-            <div class="post-preview">
+            <div class="post-preview mb-5">
                 <a href="post.html">
                     <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
                     <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
@@ -30,21 +31,21 @@
                     on September 24, 2023
                 </p>
             </div>
-            <!-- Divider-->
             <hr class="my-4" />
             <!-- Post preview-->
-            <div class="post-preview">
-                <a href="post.html"><h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.</h2></a>
+            <div class="post-preview mb-5">
+                <a href="post.html">
+                    <h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.</h2>
+                </a>
                 <p class="post-meta">
                     Posted by
                     <a href="#!">Start Bootstrap</a>
                     on September 18, 2023
                 </p>
             </div>
-            <!-- Divider-->
             <hr class="my-4" />
             <!-- Post preview-->
-            <div class="post-preview">
+            <div class="post-preview mb-5">
                 <a href="post.html">
                     <h2 class="post-title">Science has not yet mastered prophecy</h2>
                     <h3 class="post-subtitle">We predict too much for the next year and yet far too little for the next ten.</h3>
@@ -55,10 +56,9 @@
                     on August 24, 2023
                 </p>
             </div>
-            <!-- Divider-->
             <hr class="my-4" />
             <!-- Post preview-->
-            <div class="post-preview">
+            <div class="post-preview mb-5">
                 <a href="post.html">
                     <h2 class="post-title">Failure is not an option</h2>
                     <h3 class="post-subtitle">Many say exploration is part of our destiny, but it’s actually our duty to future generations.</h3>
@@ -72,7 +72,9 @@
             <!-- Divider-->
             <hr class="my-4" />
             <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+            <div class="d-flex justify-content-end mb-4">
+                <a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a>
+            </div>
         </div>
     </div>
 </div>
