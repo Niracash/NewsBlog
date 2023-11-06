@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsBlog.Data;
 using NewsBlog.Models;
+using NewsBlog.Utilities;
 using NewsBlog.ViewModels;
+using System.Configuration;
 
 namespace NewsBlog.Areas.Admin.Controllers
 {
@@ -25,9 +27,29 @@ namespace NewsBlog.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var postList = new List<Post>();
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity!.Name);
+            var userRole = await _userManager.GetRolesAsync(user!);
+            if (userRole[0] == Roles.Admin)
+            {
+                postList = await _db.Posts!.Include(x => x.User).ToListAsync();
+            }
+            else
+            {
+                postList = await _db.Posts!.Include(x => x.User).Where(x => x.User!.Id==user!.Id).ToListAsync();
+            }
+            var PostListViewModel = postList.Select(x => new PostListViewModel()
+            {
+                Id = x.Id,
+                ImageUrl = x.ImageUrl,
+                Title = x.Title,
+                AuthorName = x.User!.FirstName + " " + x.User!.LastName,
+                CreatedAt = x.CreatedAt                
+            }).ToList();
+            return View(PostListViewModel);
         }
 
         [HttpGet]
