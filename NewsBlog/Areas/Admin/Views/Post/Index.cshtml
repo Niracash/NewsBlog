@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<NewsBlog.ViewModels.PostListViewModel>
+@{
     ViewData["Title"] = "Post list";
 }
 
@@ -8,8 +9,38 @@
         <div class="card-header bg-dark">
             <h4 class="card-title text-white">Posts List</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-color:lightgray; padding: 20px;">
+            @foreach (var post in Model)
+            {
+                <div class="rounded mb-4 bg-white p-3" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12">
+                            @if (post.ImageUrl == null)
+                            {
+                                <img src="~/images/uploadImage.jpg" style="object-fit:cover; height:115px; width:100%; border-radius: 5px;">
+                            }
+                            else
+                            {
+                                <img src="~/images/@post.ImageUrl" style="object-fit:cover; height:115px; width:100%; border-radius: 5px;">
+                            }
+                        </div>
 
+                        <div class="col-lg-7 col-md-9 col-sm-8 col-12">
+                            <h4 style="font-size:1.2rem; font-weight:bold; color:#353839; margin-bottom: 0;">@post.Title</h4>
+                            <p style="font-size:0.9rem;">@post.CreatedAt</p>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 text-lg-right text-start">
+                            <h5 class="fw-bold" style="margin-bottom: 0.5rem;">Writer: @post.AuthorName</h5>
+                            <p>
+                                <a class="btn btn-warning btn-sm" style="margin-right: 5px;">Edit</a>
+                                <a class="btn btn-danger btn-sm">Delete</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
+
+

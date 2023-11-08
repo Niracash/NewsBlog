@@ -97,6 +97,10 @@ namespace NewsBlog.Areas.Admin.Controllers
                 _notification.Success("User is created!");
                 return RedirectToAction("Index", "User", new {area = "Admin"});
             }
+            else
+            {
+                _notification.Error("Password should contain capital letter and special character.");
+            }
             return View(registerViewModel);
         }
 
