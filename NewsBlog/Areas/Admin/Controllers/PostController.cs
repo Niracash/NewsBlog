@@ -94,6 +94,23 @@ namespace NewsBlog.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var autherPost = await _db.Posts!.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity!.Name);
+            var userRole = await _userManager.GetRolesAsync(user!);
+            if (userRole[0] == Roles.Admin || user?.Id == autherPost?.UserId)
+            {
+
+                _db.Posts!.Remove(autherPost!);
+                await _db.SaveChangesAsync();
+                _notification.Success("Post have been deleted");
+                return RedirectToAction("Index", "Post", new { area = "Admin" });
+            }
+            return View();
+        }
+
         private string Image(IFormFile file)
         {
             string uniqueFileName = "";

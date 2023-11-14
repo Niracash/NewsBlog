@@ -33,7 +33,9 @@
                             <h5 class="fw-bold" style="margin-bottom: 0.5rem;">Writer: @post.AuthorName</h5>
                             <p>
                                 <a class="btn btn-warning btn-sm" style="margin-right: 5px;">Edit</a>
-                                <a class="btn btn-danger btn-sm">Delete</a>
+                                <form asp-area="Admin" asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" method="post" onsubmit="return confirm('Are you sure about deleting the post?')">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
                             </p>
                         </div>
                     </div>
