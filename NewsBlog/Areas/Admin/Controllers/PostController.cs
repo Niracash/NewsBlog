@@ -53,9 +53,61 @@ namespace NewsBlog.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Edit(int id)
         {
-            return View(new CreatePostViewModel());
+            var post = await _db.Posts!.FirstOrDefaultAsync(x=>x.Id == id);
+            if(post == null)
+            {
+                _notification.Error("Post not found");
+                return View();
+            }
+            // logged in user
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity!.Name);
+            var userRole = await _userManager.GetRolesAsync(user!);
+            if (userRole[0] != Roles.Admin && user!.Id != post.UserId)
+            {
+                _notification.Error("This is not your post!");
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new CreatePostViewModel()
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Summary = post.Summary,
+                Description = post.Description,
+                ImageUrl = post.ImageUrl,
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CreatePostViewModel createPostViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(createPostViewModel);
+            }
+            var post = await _db.Posts!.FirstOrDefaultAsync(x=> x.Id == createPostViewModel.Id);
+            if(post == null)
+            {
+                _notification.Error("Post not found");
+                return View();
+            }
+            post.Title = createPostViewModel.Title;
+            post.Summary = createPostViewModel.Summary;
+            post.Description = createPostViewModel.Description;
+
+            if (createPostViewModel.UploadImage != null)
+            {
+                post.ImageUrl = Image(createPostViewModel.UploadImage);
+            }
+            await _db.SaveChangesAsync();
+            _notification.Success("Post updated!");
+            return RedirectToAction("Index", "Post", new { area = "Admin" });
+
+
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreatePostViewModel createPostViewModel)
@@ -109,6 +161,12 @@ namespace NewsBlog.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Post", new { area = "Admin" });
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new CreatePostViewModel());
         }
 
         private string Image(IFormFile file)
