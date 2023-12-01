@@ -46,6 +46,7 @@ namespace NewsBlog.Areas.Admin.Controllers
                 Id = x.Id,
                 ImageUrl = x.ImageUrl,
                 Title = x.Title,
+                Summary = x.Summary,
                 AuthorName = x.User!.FirstName + " " + x.User!.LastName,
                 CreatedAt = x.CreatedAt                
             }).ToList();

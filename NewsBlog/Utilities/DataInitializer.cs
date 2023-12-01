@@ -31,7 +31,7 @@ namespace NewsBlog.Utilities
                     Email = "admin@admin.com",
                     FirstName = "Super",
                     LastName = "Admin",
-                },"Admin@0011").Wait();
+                },"Passw0rd.").Wait();
 
                 // Retrieve the ApplicationUser with email "admin@gmail.com" from the database.
                 // If the ApplicationUser exists, assign the "Admin" role to it using the UserManager.
