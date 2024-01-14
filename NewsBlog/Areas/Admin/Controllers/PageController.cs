@@ -66,6 +66,48 @@ namespace NewsBlog.Areas.Admin.Controllers
             _notification.Success("Page updated!");
             return RedirectToAction("About", "Page", new { area = "Admin" });
         }
+        [HttpGet]
+        public async Task<IActionResult> Contact()
+        {
+            var aboutPage = await _db.Pages!.FirstOrDefaultAsync(x => x.Slug == "contact");
+            var pageViewModel = new PageViewModel()
+            {
+                Id = aboutPage!.Id,
+                Title = aboutPage.Title,
+                Summary = aboutPage.Summary,
+                Description = aboutPage.Description,
+                ImageUrl = aboutPage.ImageUrl,
+            };
+
+            return View(pageViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Contact(PageViewModel pageViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(pageViewModel);
+            }
+            var contactPage = await _db.Pages!.FirstOrDefaultAsync(x => x.Slug == "contact");
+            if (contactPage == null)
+            {
+                _notification.Error("Page not found");
+                return View();
+            }
+            contactPage.Title = pageViewModel.Title;
+            contactPage.Summary = pageViewModel.Summary;
+            contactPage.Description = pageViewModel.Description;
+
+            if (pageViewModel.ImageUrl != null)
+            {
+                contactPage.ImageUrl = Image(pageViewModel.UploadImage!);
+            }
+
+            await _db.SaveChangesAsync();
+            _notification.Success("Page updated!");
+            return RedirectToAction("Contact", "Page", new { area = "Admin" });
+        }
+
         private string Image(IFormFile file)
         {
             string uniqueFileName = "";

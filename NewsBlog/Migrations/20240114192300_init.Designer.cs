@@ -12,8 +12,8 @@ using NewsBlog.Data;
 namespace NewsBlog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240112094820_PageModelUpdate")]
-    partial class PageModelUpdate
+    [Migration("20240114192300_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
