@@ -53,7 +53,6 @@
                 </a>
             </li>
 
-            <hr class="sidebar-divider my-0">
 
             @if (User.IsInRole("Admin"))
             {
@@ -65,27 +64,35 @@
                     </a>
                 </li>
 
+                <hr class="sidebar-divider my-0">
+
 
                 <!-- Nav Item - Utilities Collapse Menu -->
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                        aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-fw fa-paper-plane"></i>
-                        <span>Pages</span>
+                        <span class="text-danger">Pages</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color.html">Weather</a>
-                            <a class="collapse-item" asp-area="Admin" asp-controller="Page" asp-action="About">About</a>
-                            <a class="collapse-item" asp-area="Admin" asp-controller="Page" asp-action="Contact">Contact</a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div class="py-2 collapse-inner rounded">
+                            <a class="bg-white collapse-item mb-2" asp-area="Admin" asp-controller="Page" asp-action="About">About</a>
+                            <a class="bg-white collapse-item" asp-area="Admin" asp-controller="Page" asp-action="Contact">Contact</a>
                         </div>
                     </div>
+
                 </li>
 
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" asp-action="Index" asp-controller="Settings" asp-area="Admin">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span class="text-danger">Settings</span>
+                    </a>
+                </li>
+
             }
 
             <!-- Sidebar Toggler (Sidebar) -->

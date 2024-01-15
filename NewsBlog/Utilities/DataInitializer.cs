@@ -35,7 +35,7 @@ namespace NewsBlog.Utilities
 
                 // Retrieve the ApplicationUser with email "admin@gmail.com" from the database.
                 // If the ApplicationUser exists, assign the "Admin" role to it using the UserManager.
-                var newUser = _context.Users.FirstOrDefault(x => x.Email == "admin@admin.com");
+                var newUser = _context.Users!.FirstOrDefault(x => x.Email == "admin@admin.com");
                 if (newUser != null)
                 {
                     _userManager.AddToRoleAsync(newUser, Roles.Admin).GetAwaiter().GetResult();
@@ -74,7 +74,7 @@ namespace NewsBlog.Utilities
                         Slug = "contact"
                     },
                 };
-                _context.Pages.AddRangeAsync(listPages);
+                _context.Pages!.AddRangeAsync(listPages);
                 _context.SaveChanges();
             }
         }
