@@ -76,8 +76,27 @@ namespace NewsBlog.Utilities
                 };
                 _context.Pages!.AddRangeAsync(listPages);
                 _context.SaveChanges();
+
+                InitializeSettings();
             }
         }
+        
+        private void InitializeSettings()
+        {
+            if (!_context.Settings!.Any())
+            {
+                var defaultSettings = new Settings
+                {
+                    Name = "News",
+                    Title = "Your News Blog Title",
+                    Description = "Description of your News Blog",
+                    // Set other default values or leave them as null/empty
+                };
 
+                _context.Settings!.Add(defaultSettings);
+                _context.SaveChanges();
+            }
+        }
+        
     }
 }
