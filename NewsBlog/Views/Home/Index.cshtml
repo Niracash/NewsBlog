@@ -1,4 +1,6 @@
-﻿@model NewsBlog.ViewModels.HomeViewModel
+﻿@using System.Text.RegularExpressions
+@using System.Net
+@model NewsBlog.ViewModels.HomeViewModel
 @{
     ViewData["Title"] = "Home";
 
@@ -20,9 +22,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <!-- Removed the inline style for width and max-width -->
-                <div class="image-container">
-                    <img src='@imageUrl' alt="Description" style="width: 100%; height: 300px; display: block; object-fit: cover;">
-                </div>
+
                 <div class="text-center mt-5">
                     <h1>@Model.Title</h1>
                     <span class="subheading">@Model.Description</span>
@@ -34,11 +34,18 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            @foreach(var post in Model.Posts!)
+            
+@*             @foreach(var post in Model.Posts!)
             {
                 <!-- Post preview-->
                 <div class="post-preview mb-5">
                     <a href="post.html">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12">
+                            @if (post.ImageUrl != null)
+                            {
+                                <img src="~/images/@post.ImageUrl" style="object-fit:cover; height:100%; width:100%; border-radius: 5px;">
+                            }
+                        </div>
                         <h2 class="post-title">@post.Title</h2>
                         <h3 class="post-subtitle">@post.Summary</h3>
                     </a>
@@ -50,7 +57,47 @@
                 </div>
                 <hr class="my-4" />
                 
+            } *@
+
+            @foreach (var post in Model.Posts!)
+            {
+                <!-- Post preview-->
+                <div class="post-preview mb-5">
+                    <a href="post.html">
+                        <!-- Check if the image URL exists -->
+                        @if (post.ImageUrl != null)
+                        {
+                            <div class="w-100">
+                                <!-- Fills the width of the parent div -->
+                                <!-- Image with Bootstrap classes for responsive and fixed height -->
+                                <img src="~/images/@post.ImageUrl" class="img-fluid rounded" style="object-fit:cover; height:400px; width:100%;">
+                            </div>
+                        }
+
+                        @{
+                            // Decode HTML entities and strip out HTML tags
+                            var decodedDescription = WebUtility.HtmlDecode(post.Description!);
+                            var cleanDescription = Regex.Replace(decodedDescription, "<.*?>", String.Empty);
+                            var displaySummary = cleanDescription.Length > 350
+                            ? cleanDescription.Substring(0, 250) + "..."
+                            : cleanDescription;
+                        }
+                        <h2 class="post-title">@post.Title</h2>
+                        <h5 class="post-subtitle">@displaySummary</h5>
+                    </a>
+                    <p class="post-meta text-end" style="font-size: 0.8em;">
+                        Posted by
+                        <a href="#!" style="font-size: 0.8em;">@post.User!.FirstName @post.User.LastName</a>
+                        <br />
+                        <small>
+                            @post.CreatedAt.ToString("MMMM dd, yyyy HH:mm")
+                        </small>
+                    </p>
+
+                </div>
+                <hr class="my-4" />
             }
+
 
             <!-- Pager-->
             <div class="d-flex justify-content-end mb-4">
