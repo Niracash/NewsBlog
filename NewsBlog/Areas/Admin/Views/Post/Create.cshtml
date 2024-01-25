@@ -18,7 +18,7 @@
                             <img src="~/images/uploadImage.jpg" class="img-fluid mb-2" id="blogimage" />
                             <label>Upload Image</label>
                             <input type="file" asp-for="UploadImage" class="custom-file" />
-                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <span asp-validation-for="UploadImage" class="text-danger"></span>
 
                         </div>
                         <!-- Text fields section -->
@@ -26,11 +26,6 @@
                             <label>Title</label>
                             <input type="text" asp-for="Title" class="form-control" />
                             <span asp-validation-for="Title" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label>Summary</label>
-                            <input type="text" asp-for="Summary" class="form-control" />
-                            <span asp-validation-for="Summary" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
                             <label>Description</label>
@@ -54,6 +49,7 @@
     </div>
 </div>
 @section Scripts{
+    <partial name ="_ValidationScriptsPartial" />
     <script>
         $(".custom-file").on("change", function () {
             var fileName = $(this).val().split("\\").pop();

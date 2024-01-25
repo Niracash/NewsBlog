@@ -8,6 +8,7 @@ using NewsBlog.Models;
 using NewsBlog.Utilities;
 using NewsBlog.ViewModels;
 using System.Configuration;
+using X.PagedList;
 
 namespace NewsBlog.Areas.Admin.Controllers
 {
@@ -28,7 +29,7 @@ namespace NewsBlog.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             var postList = new List<Post>();
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity!.Name);
@@ -46,11 +47,13 @@ namespace NewsBlog.Areas.Admin.Controllers
                 Id = x.Id,
                 ImageUrl = x.ImageUrl,
                 Title = x.Title,
-                Summary = x.Summary,
+                Description = x.Description,
                 AuthorName = x.User!.FirstName + " " + x.User!.LastName,
                 CreatedAt = x.CreatedAt                
             }).ToList();
-            return View(PostListViewModel);
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(await PostListViewModel.OrderByDescending(x => x.CreatedAt).ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -75,7 +78,6 @@ namespace NewsBlog.Areas.Admin.Controllers
             {
                 Id = post.Id,
                 Title = post.Title,
-                Summary = post.Summary,
                 Description = post.Description,
                 ImageUrl = post.ImageUrl,
             };
@@ -97,7 +99,6 @@ namespace NewsBlog.Areas.Admin.Controllers
                 return View();
             }
             post.Title = createPostViewModel.Title;
-            post.Summary = createPostViewModel.Summary;
             post.Description = createPostViewModel.Description;
 
             if (createPostViewModel.UploadImage != null)
@@ -124,7 +125,6 @@ namespace NewsBlog.Areas.Admin.Controllers
 
             var post = new Post();
             post.Title = createPostViewModel.Title;
-            post.Summary = createPostViewModel.Summary;
             post.Description = createPostViewModel.Description;
             post.UserId = user!.Id;
 

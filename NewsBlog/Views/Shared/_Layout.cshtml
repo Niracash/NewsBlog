@@ -5,7 +5,7 @@
     var settings = _db.Settings!.ToList();
     var settingsViewModel = new SettingsViewModel()
     {
-        Name = settings[0].Name,
+        Logo = settings[0].Logo,
         TwitterUrl = settings[0].TwitterUrl,
         FacebookUrl = settings[0].FacebookUrl,
         GithubUrl = settings[0].GithubUrl,
@@ -18,7 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>@ViewData["Title"] - @settingsViewModel.Name</title>
+    <title>@ViewData["Title"] - @settingsViewModel.Logo</title>
     <link rel="icon" type="image/x-icon" href="~/MainPage/assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">@settingsViewModel.Name</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">@settingsViewModel.Logo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars"></i>
@@ -82,7 +82,7 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="small text-center text-muted fst-italic">Copyright &copy; @settingsViewModel.Name</div>
+                    <div class="small text-center text-muted fst-italic">Copyright &copy; @settingsViewModel.Logo</div>
                 </div>
             </div>
         </div>

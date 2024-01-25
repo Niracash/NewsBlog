@@ -12,8 +12,8 @@ using NewsBlog.Data;
 namespace NewsBlog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240118080754_init")]
-    partial class init
+    [Migration("20240125100411_updatednames")]
+    partial class updatednames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -239,13 +239,7 @@ namespace NewsBlog.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -274,9 +268,6 @@ namespace NewsBlog.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -309,10 +300,7 @@ namespace NewsBlog.Migrations
                     b.Property<string>("GithubUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")

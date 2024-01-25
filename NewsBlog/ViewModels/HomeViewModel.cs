@@ -1,4 +1,5 @@
 ﻿using NewsBlog.Models;
+using X.PagedList;
 
 namespace NewsBlog.ViewModels
 {
@@ -6,7 +7,6 @@ namespace NewsBlog.ViewModels
     {
         public string? Title { get; set; }
         public string? Description { get; set; }
-        public string? ImageUrl { get; set; }
-        public List<Post>? Posts { get; set; }
+        public IPagedList<Post>? Posts { get; set; }
     }
 }

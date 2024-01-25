@@ -1,8 +1,6 @@
-﻿using NewsBlog.Models;
-
-namespace NewsBlog.ViewModels
+﻿namespace NewsBlog.ViewModels
 {
-    public class PostListViewModel
+    public class ContentViewModel
     {
         public int Id { get; set; }
         public string? ImageUrl { get; set; }

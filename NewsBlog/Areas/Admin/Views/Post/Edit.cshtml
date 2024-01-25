@@ -40,11 +40,6 @@
                             <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label>Summary</label>
-                            <input type="text" asp-for="Summary" class="form-control" />
-                            <span asp-validation-for="Summary" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
                             <label>Description</label>
                             <textarea id="textEditor" asp-for="Description" class="form-control" rows="10" style="resize:none;"></textarea> <!-- Made textarea non-resizable -->
                             <span asp-validation-for="Description" class="text-danger"></span>
@@ -66,6 +61,7 @@
     </div>
 </div>
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(".custom-file").on("change", function () {
             var fileName = $(this).val().split("\\").pop();

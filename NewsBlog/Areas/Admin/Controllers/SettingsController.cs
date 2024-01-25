@@ -27,7 +27,7 @@ namespace NewsBlog.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var settings = await _db.Settings.FirstOrDefaultAsync();
+            var settings = await _db.Settings!.FirstOrDefaultAsync();
             if (settings == null)
             {
                 // Optionally handle the case where settings are not found.
@@ -38,10 +38,9 @@ namespace NewsBlog.Areas.Admin.Controllers
             var settingsViewModel = new SettingsViewModel()
             {
                 Id = settings.Id,
-                Name = settings.Name,
+                Logo = settings.Logo,
                 Title = settings.Title,
                 Description = settings.Description,
-                ImageUrl = settings.ImageUrl,
                 TwitterUrl = settings.TwitterUrl,
                 FacebookUrl = settings.FacebookUrl,
                 GithubUrl = settings.GithubUrl
@@ -64,32 +63,17 @@ namespace NewsBlog.Areas.Admin.Controllers
                 _notification.Error("Error 404 not found");
                 return View(settingsViewModel);
             }
-            settings.Name = settingsViewModel.Name;
+            settings.Logo = settingsViewModel.Logo;
             settings.Title = settingsViewModel.Title;
             settings.Description = settingsViewModel.Description;
             settings.TwitterUrl = settingsViewModel.TwitterUrl;
             settings.FacebookUrl = settingsViewModel.FacebookUrl;
             settings.GithubUrl = settingsViewModel.GithubUrl;
-            if (settingsViewModel.UploadImage != null)
-            {
-                settings.ImageUrl = Image(settingsViewModel.UploadImage);
-            }
+
             await _db.SaveChangesAsync();
             _notification.Success("Settings updated!");
             return RedirectToAction("Index", "Settings", new { area = "Admin" });
         }
 
-        private string Image(IFormFile file)
-        {
-            string uniqueFileName = "";
-            var folderPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            var filePath = Path.Combine(folderPath, uniqueFileName);
-            using (FileStream fileStream = System.IO.File.OpenWrite(filePath))
-            {
-                file.CopyTo(fileStream);
-            }
-            return uniqueFileName;
-        }
     }
 }

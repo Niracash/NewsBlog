@@ -33,9 +33,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             {
                 Id = aboutPage!.Id,
                 Title = aboutPage.Title,
-                Summary = aboutPage.Summary,
                 Description = aboutPage.Description,
-                ImageUrl = aboutPage.ImageUrl,
             };
 
             return View(pageViewModel);
@@ -54,13 +52,7 @@ namespace NewsBlog.Areas.Admin.Controllers
                 return View();
             }
             aboutPage.Title = pageViewModel.Title;
-            aboutPage.Summary = pageViewModel.Summary;
             aboutPage.Description = pageViewModel.Description;
-
-            if (pageViewModel.ImageUrl != null)
-            {
-                aboutPage.ImageUrl = Image(pageViewModel.UploadImage!);
-            }
 
             await _db.SaveChangesAsync();
             _notification.Success("Page updated!");
@@ -74,9 +66,7 @@ namespace NewsBlog.Areas.Admin.Controllers
             {
                 Id = aboutPage!.Id,
                 Title = aboutPage.Title,
-                Summary = aboutPage.Summary,
                 Description = aboutPage.Description,
-                ImageUrl = aboutPage.ImageUrl,
             };
 
             return View(pageViewModel);
@@ -95,30 +85,13 @@ namespace NewsBlog.Areas.Admin.Controllers
                 return View();
             }
             contactPage.Title = pageViewModel.Title;
-            contactPage.Summary = pageViewModel.Summary;
             contactPage.Description = pageViewModel.Description;
 
-            if (pageViewModel.ImageUrl != null)
-            {
-                contactPage.ImageUrl = Image(pageViewModel.UploadImage!);
-            }
 
             await _db.SaveChangesAsync();
             _notification.Success("Page updated!");
             return RedirectToAction("Contact", "Page", new { area = "Admin" });
         }
 
-        private string Image(IFormFile file)
-        {
-            string uniqueFileName = "";
-            var folderPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            var filePath = Path.Combine(folderPath, uniqueFileName);
-            using (FileStream fileStream = System.IO.File.OpenWrite(filePath))
-            {
-                file.CopyTo(fileStream);
-            }
-            return uniqueFileName;
-        }
     }
 }

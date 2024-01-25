@@ -1,4 +1,8 @@
-﻿@model List<NewsBlog.ViewModels.PostListViewModel>
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+
+@model IPagedList<NewsBlog.ViewModels.PostListViewModel>
 @{
     ViewData["Title"] = "Post list";
 }
@@ -27,7 +31,9 @@
 
                         <div class="col-lg-7 col-md-9 col-sm-8 col-12">
                             <h4 style="font-weight:bold; color:#353839;">@post.Title</h4>
-                            <p>@post.Summary</p>
+                            <p>
+                                @Html.Raw(post.Description!.Length <= 200 ? post.Description : post.Description.Substring(0, 200) + "...")
+                            </p>
 
                             <p style="font-size:0.9rem;">@post.CreatedAt</p>
                         </div>
@@ -43,6 +49,27 @@
                     </div>
                 </div>
             }
+        </div>
+        <div class="card-footer">
+            Page @(Model?.PageCount < Model!.PageNumber ? 0 : Model!.PageNumber) of @Model!.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+                     new PagedListRenderOptions()
+            {
+                Display = PagedListDisplayMode.IfNeeded,
+                DisplayPageCountAndCurrentLocation = false,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayLinkToIndividualPages = true,
+                MaximumPageNumbersToDisplay = 5,
+                ContainerDivClasses = new List<string> { "d-flex", "justify-content-center" },
+                UlElementClasses = new List<string> { "pagination" },
+                LiElementClasses = new List<string> { "page-item" },
+                PageClasses = new List<string> { "page-link", "btn", "btn-primary" }, // Apply button classes here
+                ActiveLiElementClass = "active"
+            })
+
         </div>
     </div>
 </div>

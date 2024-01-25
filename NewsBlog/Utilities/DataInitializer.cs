@@ -87,7 +87,7 @@ namespace NewsBlog.Utilities
             {
                 var defaultSettings = new Settings
                 {
-                    Name = "LOGO Text",
+                    Logo = "LOGO Text",
                     Title = "Title",
                     Description = "Description of News Blog",
                     // Set other default values or leave them as null/empty

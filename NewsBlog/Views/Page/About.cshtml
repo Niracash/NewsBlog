@@ -2,15 +2,7 @@
 @{
     ViewData["Title"] = "About Us";
 
-    string pageImage = "";
-    if(Model.ImageUrl == null)
-    {
-        pageImage = "/MainPage/assets/img/about-bg.jpg";
-    }
-    else
-    {
-        pageImage = "/images/" + Model.ImageUrl;
-    }
+
 
 }
 <header class="masthead" style="background-image: url('/MainPage/assets/img/about-bg.jpg')">
@@ -19,7 +11,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="page-heading">
                     <h1>@Model.Title</h1>
-                    <span class="subheading">@Model.Summary</span>
+                    <span class="subheading">@Html.Raw(Model.Description)</span>
                 </div>
             </div>
         </div>

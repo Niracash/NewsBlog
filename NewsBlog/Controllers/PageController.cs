@@ -22,9 +22,7 @@ namespace NewsBlog.Controllers
             var pageViewModel = new PageViewModel()
             {
                 Title = page!.Title,
-                Summary = page.Summary,
                 Description = page.Description,
-                ImageUrl = page.ImageUrl
             };
             return View(pageViewModel);
         }
@@ -34,9 +32,7 @@ namespace NewsBlog.Controllers
             var pageViewModel = new PageViewModel()
             {
                 Title = page!.Title,
-                Summary = page.Summary,
                 Description = page.Description,
-                ImageUrl = page.ImageUrl
             };
             return View(pageViewModel);
         }
